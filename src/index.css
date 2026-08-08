@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Design tokens carried over 1:1 from the routerx Figma design direction */
+  --color-ink: #111114;
+  --color-sub: #6b6b76;
+  --color-muted: #9a9aa6;
+  --color-accent: #2563eb;
+  --color-accent-soft: #e8f0fe;
+  --color-border: #e5e5ea;
+  --color-soft: #f6f6f9;
+  --color-success: #16a34a;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}

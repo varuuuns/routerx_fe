@@ -1,0 +1,46 @@
+{$DOMAIN} {
+	# API and health check go to the backend
+	handle /v1/* {
+		reverse_proxy app:3000
+	}
+	handle /health {
+		reverse_proxy app:3000
+	}
+
+	# Static build output
+	handle /assets/* {
+		root * /srv
+		file_server
+	}
+	handle /favicon.svg {
+		root * /srv
+		file_server
+	}
+
+	# Known SPA routes - serve index.html, the client-side router takes it from there
+	handle / {
+		root * /srv
+		file_server
+	}
+	handle /login {
+		root * /srv
+		rewrite * /index.html
+		file_server
+	}
+	handle /register {
+		root * /srv
+		rewrite * /index.html
+		file_server
+	}
+	handle /dashboard {
+		root * /srv
+		rewrite * /index.html
+		file_server
+	}
+
+	# Everything else is a short-link alias attempt - let the backend
+	# resolve it (or 404 if it's not a real alias).
+	handle {
+		reverse_proxy app:3000
+	}
+}
