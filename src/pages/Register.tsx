@@ -50,12 +50,12 @@ export function Register() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-soft px-6">
-      <div className="w-full max-w-sm rounded-2xl border border-border bg-white p-8">
+    <div className="flex min-h-screen items-center justify-center bg-surface px-6">
+      <div className="w-full max-w-sm rounded-xl border border-border bg-white p-8">
         <Link to="/" className="block text-center">
           <Logo />
         </Link>
-        <h1 className="mt-6 text-center text-xl font-bold text-ink">Create your account</h1>
+        <h1 className="mt-6 text-center font-serif text-2xl text-ink italic">Create your account</h1>
         <p className="mt-1 text-center text-sm text-sub">
           {pendingLongLink ? "One account and we'll shorten your link." : "Free, self-hosted, yours."}
         </p>
@@ -68,9 +68,12 @@ export function Register() {
               minLength={3}
               maxLength={32}
               pattern="[a-zA-Z0-9\-_.]+"
+              name="username"
+              autoComplete="username"
+              spellCheck={false}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="rounded-lg border border-border px-3.5 py-2.5 text-sm focus:border-accent focus:outline-none"
+              className="rounded-md border border-border px-3.5 py-2.5 text-sm focus:border-ink focus:outline-none"
             />
           </label>
           <label className="flex flex-col gap-1.5 text-sm font-medium text-ink">
@@ -79,23 +82,25 @@ export function Register() {
               required
               type="password"
               minLength={8}
+              name="password"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="rounded-lg border border-border px-3.5 py-2.5 text-sm focus:border-accent focus:outline-none"
+              className="rounded-md border border-border px-3.5 py-2.5 text-sm focus:border-ink focus:outline-none"
             />
-            <span className="text-xs text-muted">At least 8 characters.</span>
+            <span className="text-xs text-sub">At least 8 characters.</span>
           </label>
 
-          {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+          {error && <p className="text-sm font-medium text-[#9F2F2D]">{error}</p>}
 
-          <Button type="submit" variant="primary" className="mt-2 w-full" disabled={loading}>
+          <Button type="submit" className="mt-2 w-full" disabled={loading}>
             {loading ? "Creating account…" : "Sign up free"}
           </Button>
         </form>
 
         <p className="mt-6 text-center text-sm text-sub">
           Already have an account?{" "}
-          <Link to="/login" state={location.state} className="font-semibold text-accent">
+          <Link to="/login" state={location.state} className="font-medium text-pale-blue-text">
             Log in
           </Link>
         </p>

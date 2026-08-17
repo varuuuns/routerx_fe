@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { House, ChartPieSlice, SquaresFour, ArrowRight } from "@phosphor-icons/react";
 import { Logo } from "../components/Logo";
 import { Button } from "../components/Button";
 import { useAuth } from "../lib/auth";
@@ -7,22 +8,22 @@ import { api, ApiError, type ShortenResponse } from "../lib/api";
 
 const FEATURES = [
   {
-    glyph: "⌂",
+    icon: House,
     title: "Custom domains",
     desc: "Serve short links from routerx.in or any domain you own — not a shared, throwaway one.",
   },
   {
-    glyph: "◔",
+    icon: ChartPieSlice,
     title: "Real-time analytics",
     desc: "Every click streamed through ClickHouse and queryable the moment it happens.",
   },
   {
-    glyph: "▣",
+    icon: SquaresFour,
     title: "Self-hosted",
     desc: "Runs entirely on infrastructure you control. Your links, your data, no vendor lock-in.",
   },
   {
-    glyph: "▹",
+    icon: ArrowRight,
     title: "API-first",
     desc: "A clean REST API with JWT auth behind every operation — built for automation.",
   },
@@ -62,10 +63,10 @@ export function Landing() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-canvas">
       <nav className="flex items-center justify-between border-b border-border px-16 py-6">
         <Logo />
-        <div className="flex items-center gap-8 text-sm font-medium text-sub">
+        <div className="flex items-center gap-8 text-sm text-sub">
           <span>Docs</span>
           <span>Analytics</span>
           <span>Self-hosting</span>
@@ -73,15 +74,15 @@ export function Landing() {
         <div className="flex items-center gap-3">
           {isAuthenticated ? (
             <Link to="/dashboard">
-              <Button variant="dark">Go to dashboard</Button>
+              <Button>Go to dashboard</Button>
             </Link>
           ) : (
             <>
-              <Link to="/login" className="text-sm font-semibold text-ink">
+              <Link to="/login" className="text-sm font-medium text-ink">
                 Log in
               </Link>
               <Link to="/register">
-                <Button variant="dark">Sign up free</Button>
+                <Button>Sign up free</Button>
               </Link>
             </>
           )}
@@ -89,32 +90,38 @@ export function Landing() {
       </nav>
 
       <section className="flex flex-col items-center px-16 pt-28 pb-24 text-center">
-        <span className="rounded-full bg-accent-soft px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.2em] text-accent">
-          SELF-HOSTED · OWN YOUR INFRASTRUCTURE
+        <span className="fade-up rounded-full bg-pale-blue px-3.5 py-1.5 text-[11px] font-medium tracking-[0.15em] text-pale-blue-text uppercase">
+          Self-hosted · own your infrastructure
         </span>
 
-        <h1 className="mt-7 max-w-3xl text-6xl font-extrabold tracking-tight text-ink">
+        <h1
+          className="fade-up mt-7 max-w-3xl font-serif text-7xl text-ink italic"
+          style={{ animationDelay: "80ms", letterSpacing: "-0.02em", lineHeight: 1.1 }}
+        >
           Own every link you shorten.
         </h1>
 
-        <p className="mt-7 max-w-xl text-lg leading-relaxed text-sub">
+        <p className="fade-up mt-7 max-w-xl text-lg leading-relaxed text-sub" style={{ animationDelay: "160ms" }}>
           A self-hosted link shortener with real-time click analytics, custom domains, and zero
           vendor lock-in — running on infrastructure you control end to end.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="mt-7 flex w-full max-w-xl items-center gap-2 rounded-full border border-border bg-white p-2"
+          className="fade-up mt-7 flex w-full max-w-xl items-center gap-2 rounded-lg border border-border bg-white p-2"
+          style={{ animationDelay: "240ms" }}
         >
           <input
             type="url"
+            name="longLink"
+            autoComplete="url"
             required
             value={longLink}
             onChange={(e) => setLongLink(e.target.value)}
             placeholder="https://your-really-long-link.com/campaign/summer"
-            className="flex-1 bg-transparent px-4 py-2.5 text-sm text-ink placeholder:text-muted focus:outline-none"
+            className="flex-1 bg-transparent px-4 py-2.5 text-sm text-ink placeholder:text-sub focus:outline-none"
           />
-          <Button type="submit" variant="primary" className="rounded-full" disabled={loading}>
+          <Button type="submit" disabled={loading}>
             {loading ? "Shortening…" : "Shorten"}
           </Button>
         </form>
@@ -124,26 +131,26 @@ export function Landing() {
             href={`https://routerx.in/${result.shortAlias}`}
             target="_blank"
             rel="noreferrer"
-            className="mt-3 flex items-center gap-2 text-sm font-medium text-accent"
+            className="mt-3 flex items-center gap-2 text-sm font-medium text-pale-blue-text"
           >
             → <span className="font-mono">routerx.in/{result.shortAlias}</span>
           </a>
         )}
-        {error && <p className="mt-3 text-sm font-medium text-red-600">{error}</p>}
+        {error && <p className="mt-3 text-sm font-medium text-[#9F2F2D]">{error}</p>}
 
-        <p className="mt-8 text-[11px] font-semibold tracking-[0.2em] text-muted">
-          BUILT ON CASSANDRA · CLICKHOUSE · REDIS · ZOOKEEPER
+        <p className="mt-8 text-[11px] font-medium tracking-[0.15em] text-sub uppercase">
+          Built on Cassandra · ClickHouse · Redis · ZooKeeper
         </p>
       </section>
 
-      <section className="bg-soft px-16 py-24">
+      <section className="border-t border-border bg-surface px-16 py-24">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((f) => (
-            <div key={f.title} className="rounded-xl border border-border bg-white p-6">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-soft text-base font-bold text-accent">
-                {f.glyph}
+            <div key={f.title} className="rounded-xl border border-border bg-white p-7">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-pale-blue text-pale-blue-text">
+                <f.icon size={18} weight="bold" aria-hidden="true" />
               </div>
-              <h3 className="mt-3 text-base font-semibold text-ink">{f.title}</h3>
+              <h3 className="mt-4 text-base font-medium text-ink">{f.title}</h3>
               <p className="mt-2 text-[13.5px] leading-relaxed text-sub">{f.desc}</p>
             </div>
           ))}

@@ -1,6 +1,6 @@
 export function Logo({ light = false, className = "" }: { light?: boolean; className?: string }) {
   return (
-    <span className={`text-xl font-extrabold tracking-tight ${light ? "text-white" : "text-ink"} ${className}`}>
+    <span className={`font-serif text-2xl italic ${light ? "text-white" : "text-ink"} ${className}`}>
       routerx
     </span>
   );
